@@ -1,6 +1,6 @@
 import { useState, useRef } from "react"
 import { splitPdf, downloadBlob } from "../api/pdf"
-import { useNavigate } from "react-router-dom"
+import HomeButton from "../components/HomeButton"
 
 export default function PdfSplitter() {
 	const [file, setFile] = useState<File | null>(null)
@@ -8,7 +8,6 @@ export default function PdfSplitter() {
 	const [endPage, setEndPage] = useState(1)
 	const [loading, setLoading] = useState(false)
 	const fileInputRef = useRef<HTMLInputElement>(null)
-	const navigate = useNavigate()
 
 	const handleSubmit = async () => {
 		if (!file) return
@@ -28,8 +27,7 @@ export default function PdfSplitter() {
 
 	return (
 	<>
-
-			<div onClick={() => navigate(`/`)} className='absolute top-0 left-0 cursor-pointer text-2xl font-display p-5 rounded-lg hover:bg-gray-800'> {'>'} Home</div>
+		<HomeButton/>
 		<div className="flex flex-col h-[67vh] md:grid lg:grid-cols-3 lg:justify-center items-center p-5 lg:p-20 m-20 gap-5">
 
 			<div 

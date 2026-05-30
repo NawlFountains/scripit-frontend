@@ -1,6 +1,7 @@
 import {useState} from "react"
 import type { Movie } from "../lib/definitions"
 import {getWatchlist} from "../api/letterboxd"
+import HomeButton from "../components/HomeButton"
 
 export default function LetterboxdWatchlist() {
 	const [movies, setMovies] = useState<Movie[]>([])
@@ -21,6 +22,8 @@ export default function LetterboxdWatchlist() {
 		setLoading(false)
 	}
 	return (
+		<>
+		<HomeButton/>
 		<div className="flex flex-col justify-center items-center gap-5 p-20">
 		<h1 className="font-display text-4xl">Retrieve a Letterboxd user Watchlist</h1>
 		<div className="flex flex-row border border-gray-300/20 rounded-2xl p-4 gap-4">
@@ -52,5 +55,6 @@ export default function LetterboxdWatchlist() {
 				
 			    </div>
 		</div>
+		</>
 	)
 }
