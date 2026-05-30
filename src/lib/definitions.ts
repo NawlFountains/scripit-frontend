@@ -3,3 +3,8 @@ export type ScriptInfo = {
 	description: string;
 	route: string;
 };
+
+export type Movie = {
+	Name: string;
+	Year: string;
+}
