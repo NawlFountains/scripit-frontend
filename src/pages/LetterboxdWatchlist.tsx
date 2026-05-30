@@ -43,6 +43,11 @@ export default function LetterboxdWatchlist() {
 
 			<div className="flex flex-col">
 			{status === 'error' && ( <div>User not found </div>)}
+			{loading && (
+				<p className="text-2xl font-display">
+					Retriving watchlist...
+				</p>
+			)}
 			{status === 'success' && (
 				<>
 				<h2 className="font-display text-2xl text-center">Watchlist</h2>

@@ -9,3 +9,16 @@ export const getWatchlist = async (username: string): Promise<Movie[]> => {
 	if (!res.ok) throw new Error('Failed to retrieve watchlist')
 	return res.json()
 }
+
+export const getIntersectedWatchlist = async (usernames: string[]): Promise<Movie[]> => {
+	const res = await fetch(
+		`${BASE_URL}/letterboxd_handler/intersect`,
+			{ 
+				method: 'POST',
+				headers: { 'Content-type': 'application/json' },
+				body: JSON.stringify(usernames)
+				}
+	)
+	if (!res.ok) throw new Error('Failed to retrieve watchlist')
+	return res.json()
+} 
