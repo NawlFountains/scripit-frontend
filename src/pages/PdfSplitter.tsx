@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { splitPdf, downloadBlob } from "../api/pdf"
 
 export default function PdfSplitter() {
@@ -6,13 +6,15 @@ export default function PdfSplitter() {
 	const [startPage, setStartPage] = useState(1)
 	const [endPage, setEndPage] = useState(1)
 	const [loading, setLoading] = useState(false)
+	const fileInputRef = useRef<HTMLInputElement>(null)
 
 	const handleSubmit = async () => {
 		if (!file) return
 			setLoading(true)
 		try {
 			const blob = await splitPdf(file, startPage, endPage)
-			downloadBlob(blob, `output(${startPage}-${endPage}).pdf`)
+			const baseName = file.name.replace('.pdf', '')
+			downloadBlob(blob, `${baseName}(${startPage}-${endPage}).pdf`)
 		} catch (e) {
 			console.error(e)
 		} finally {
@@ -24,16 +26,56 @@ export default function PdfSplitter() {
 
 	return (
 	<>
-		<div className="flex flex-col min-h-screen md:min-h-screen md:grid lg:grid-cols-3 lg:justify-center items-center p-5 lg:p-20 m-20 gap-5">
+		<div className="flex flex-col h-[67vh] md:grid lg:grid-cols-3 lg:justify-center items-center p-5 lg:p-20 m-20 gap-5">
 
-			<input type='file' accept='application/pdf' onChange={e => setFile(e.target.files?.[0] ?? null)} className="cursor-pointer rounded-2xl p-5 bg-white/40 lg:col-span-2 w-full h-full">
+			<div 
+			onClick={() => fileInputRef.current?.click()}
+			className="flex flex-col rounded-2xl lg:col-span-2 w-full h-full bg-gray-200/20 justify-center items-center">
+			{file ? (
+			    <>
+			      <span className="text-4xl">📄</span>
+			      <p className="font-bold">{file.name}</p>
+			    </>
+			  ) : (
+			    <>
+			      <span className="text-2xl font-bold">Click to upload PDF</span>
+			      <p className="text-gray-400 text-lg">or drag and drop</p>
+			    </>
+			  )}
+			<input 
+				ref={fileInputRef}
+				type='file' 
+				accept='application/pdf' 
+				onChange={e => setFile(e.target.files?.[0] ?? null)} 
+				className="hidden">
 			</input>
-			<div className="flex flex-col lg:flex-col flex-wrap gap-10">
-				<input type='number' value={startPage} onChange={e => setStartPage(Number(e.target.value))} placeholder="Start page" className="text-center" />
-				<input type='number' value={endPage} onChange={e => setEndPage(Number(e.target.value))} placeholder="End page" className="text-center"/>
-			<button onClick={handleSubmit} disabled={!file || loading} className="cursor-pointer rounded-xl border-white border p-2 hover:bg-white/40 w-full">
-			{loading ? 'Splitting...' : 'Split PDF'}
-			</button>
+
+			</div>
+			<div className="flex flex-col flex-wrap gap-10 w-full h-full justify-center p-5">
+				<div className="flex flex-row flex-wrap justify-center border broder-gray-500 rounded-2xl divide-x p-5">
+					<p className="flex-2 font-display uppercase">
+						Start page
+					</p>
+					<input 
+						type='number' 
+						value={startPage} 
+						onChange={e => setStartPage(Number(e.target.value))} placeholder="Start page" className="text-center flex-1" />
+				</div>
+				<div className="flex flex-row flex-wrap justify-center border broder-gray-500 rounded-2xl divide-x p-5">
+					<p className="flex-2 font-display uppercase">
+					End page
+					</p>
+					<input 
+						type='number' 
+						value={endPage} 
+						onChange={e => setEndPage(Number(e.target.value))} placeholder="End page" className="text-center"/>
+				</div>
+				<button 
+					onClick={handleSubmit} 
+					disabled={!file || loading} 
+					className="cursor-pointer rounded-xl border-white border p-4  w-full font-display uppercase">
+					{loading ? 'Splitting...' : 'Split PDF'}
+				</button>
 			</div>
 		</div>
 	</>
