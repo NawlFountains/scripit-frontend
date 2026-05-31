@@ -2,7 +2,7 @@
 
 A React frontend for the ScriptIt API.
 
-🔗 [Live](https://scripit.vercel.app)
+🔗 [Live](https://scripit.vercel.app) · [Backend Repo](https://github.com/NawlFountains/scripit-api)
 ![demo](assets/demo.gif)
 
 ## Stack
