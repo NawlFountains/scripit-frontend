@@ -3,6 +3,7 @@
 A React frontend for the ScriptIt API.
 
 🔗 [Live](https://scripit.vercel.app)
+![demo](assets/demo.gif)
 
 ## Stack
 - React
