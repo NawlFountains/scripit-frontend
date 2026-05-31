@@ -2,6 +2,8 @@
 
 A React frontend for the ScriptIt API.
 
+🔗 [Live](https://scripit.vercel.app)
+
 ## Stack
 - React
 - Typescript
